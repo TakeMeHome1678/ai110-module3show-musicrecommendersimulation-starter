@@ -21,16 +21,7 @@ Prompts:
 
 ## 3. How the Model Works  
 
-Explain your scoring approach in simple language.  
-
-Prompts:  
-
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
-
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+The simulation compares each song with a profile that specifies a favorite genre, favorite mood, and target energy. It gives a song 2 points for an exact genre match and 1 point for an exact mood match. It also gives up to 1 point for how close the song's energy is to the user's target: closer energy earns more points. It calculates a score for every song, sorts the songs from highest score to lowest, and returns the top five with short explanations of their matches. This is a simple content-based approach: it uses the song descriptions and the user's stated preferences, not listening history or behavior from other users.
 
 ---
 
