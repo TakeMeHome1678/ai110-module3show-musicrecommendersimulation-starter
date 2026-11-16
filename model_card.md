@@ -1,102 +1,41 @@
-# 🎧 Model Card: Music Recommender Simulation
+# 🎧 Model Card: VibeScout 1.0
 
-## 1. Model Name  
+## 1. Model Name
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+**VibeScout 1.0** recommends songs by comparing their listed features with a user's stated taste.
 
----
+## 2. Goal / Task
 
-## 2. Intended Use  
+The recommender ranks songs that best match a user's preferred genre, mood, and energy. It returns the top five songs with short reasons for their scores.
 
-Describe what your recommender is designed to do and who it is for. 
+## 3. Data Used
 
-Prompts:  
+The catalog contains 18 songs. Each song has a genre, mood, energy, tempo, valence, danceability, and acousticness, along with its title and artist. The catalog is small and uneven: lofi appears three times, pop twice, and most genres only once. The data does not include lyrics, listening history, or user ratings.
 
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+## 4. Algorithm Summary
 
----
+The system gives 1 point for a matching genre and 1 point for a matching mood. It adds up to 2 points for energy that is close to the user's target. It scores every song, sorts from highest score to lowest, and shows the top five with reasons.
 
-## 3. How the Model Works  
+## 5. Observed Behavior / Biases
 
-The simulation compares each song with a profile that specifies a favorite genre, favorite mood, and target energy. It gives a song 2 points for an exact genre match and 1 point for an exact mood match. It also gives up to 1 point for how close the song's energy is to the user's target: closer energy earns more points. It calculates a score for every song, sorts the songs from highest score to lowest, and returns the top five with short explanations of their matches. This is a simple content-based approach: it uses the song descriptions and the user's stated preferences, not listening history or behavior from other users.
+Exact genre and mood matches can keep recommendations inside familiar labels and miss related music from other genres. Energy can outweigh a genre or mood mismatch. For example, Spacewalk Thoughts moved ahead of Focus Flow for the Chill Lofi profile because its energy was closer to the target, even though its genre did not match. Users with preferences absent from the catalog, such as metal or sad, receive no points for those preferences.
 
----
+## 6. Evaluation Process
 
-## 4. Data  
+I tested High-Energy Pop, Chill Lofi, Deep Intense Rock, High-Energy Sad Rock, and an unrepresented Metal/Sad profile. I compared their top-five lists and checked that songs matching the profile tended to score higher. Gym Hero surprised me by ranking near the top for Happy Pop: it matches pop and has high energy, even though its mood is intense.
 
-Describe the dataset the model uses.  
+I also changed the weights: genre went from 2 points to 1, and energy similarity doubled from a maximum of 1 point to 2. Spacewalk Thoughts then moved ahead of Focus Flow for Chill Lofi because it was closer to the target energy. This confirms the weights change rankings, but without listener feedback I cannot say the new ranking is more accurate.
 
-Prompts:  
+## 7. Intended Use and Non-Intended Use
 
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
+This is a classroom demo for learning how content-based scoring and ranking work. It can show how changing preferences or weights affects a small catalog. It is not designed to understand a person's full taste or make dependable recommendations for a real music service.
 
----
+## 8. Ideas for Improvement
 
-## 5. Strengths  
+- Add more songs and balance the number of examples in each genre and mood.
+- Use more song features, such as valence, tempo, and acousticness.
+- Collect listener feedback and use it to tune weights and improve recommendation variety.
 
-Where does your system seem to work well  
+## 9. Personal Reflection
 
-Prompts:  
-
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
-
----
-
-## 6. Limitations and Bias 
-
-Where the system struggles or behaves unfairly. 
-
-Prompts:  
-
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
-
----
-
-## 7. Evaluation  
-
-How you checked whether the recommender behaved as expected. 
-
-Prompts:  
-
-- Which user profiles you tested  
-- What you looked for in the recommendations  
-- What surprised you  
-- Any simple tests or comparisons you ran  
-
-No need for numeric metrics unless you created some.
-
----
-
-## 8. Future Work  
-
-Ideas for how you would improve the model next.  
-
-Prompts:  
-
-- Additional features or preferences  
-- Better ways to explain recommendations  
-- Improving diversity among the top results  
-- Handling more complex user tastes  
-
----
-
-## 9. Personal Reflection  
-
-A few sentences about your experience.  
-
-Prompts:  
-
-- What you learned about recommender systems  
-- Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps  
+My biggest learning moment was changing the feature weights and seeing Spacewalk Thoughts move ahead of Focus Flow for the Chill Lofi profile. It showed me that small scoring choices can noticeably change a ranked list. AI tools helped me draft code, explanations, and test profiles quickly, but I still needed to check the math, run the program, and compare the actual output with the documented recipe. I was surprised that a simple combination of genre, mood, and energy can feel like a recommendation because it produces an understandable reason for each result. If I extend the project, I would add a larger, more balanced catalog, include more audio features, and use listener feedback to check whether the rankings are genuinely useful.
